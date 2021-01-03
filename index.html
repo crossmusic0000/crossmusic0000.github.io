@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross Music</title>
+    <link rel="icon" type="image/png" href="file:///C:/Users/nakazawahiroto/Desktop/xam/htdocs/App%20Cross/images/music.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/dac92b92d5.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            background: rgb(39, 41, 38);
+            overflow-y: hidden;
+        }
+.menu-trigger {
+  display: inline-block;
+  width: 36px;
+  height: 28px;
+  vertical-align: middle;
+  cursor: pointer;
+  position: fixed;
+  top: 16px;
+  right: 30px;
+  z-index: 100;
+}
+.menu-trigger span {
+  display: inline-block;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #fff;
+  transition: all .5s;
+}
+.menu-trigger.active span {
+  background-color: #fff;
+}
+.menu-trigger span:nth-of-type(1) {
+  top: 0;
+}
+.menu-trigger.active span:nth-of-type(1) {
+  transform: translateY(12px) rotate(-45deg);
+  background: rgb(32, 147, 201);
+}
+.menu-trigger span:nth-of-type(2) {
+  top: 12px;
+}
+.menu-trigger.active span:nth-of-type(2) {
+  opacity: 0;
+}
+.menu-trigger span:nth-of-type(3) {
+  bottom: 0;
+}
+.menu-trigger.active span:nth-of-type(3) {
+  transform: translateY(-12px) rotate(45deg);
+  background: rgb(32, 147, 201);
+}
+ 
+nav {
+  width: 300px;
+  height: 100%;
+  padding-top: 100px;
+  background-color: rgb(39, 41, 38);
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  transform: translate(300px);
+  transition: all .5s;
+}
+nav.open {
+  transform: translateZ(0);
+}
+nav li {
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
+p {
+      color: white;
+      font-size: 32px;
+      margin-left: 22px;
+}
+#back {
+    background-image: linear-gradient(to right,rgb(32, 147, 201), rgba(128, 13, 223, 0.65)),url(file:///C:/Users/nakazawahiroto/Desktop/xam/htdocs/App%20Cross/images/musicback2.jpg);
+    width: 100%;
+    height: 300px;
+    display: flex;
+}
+#input2 {
+    width: 50%;
+    height: 396px;
+    background: rgb(25, 25, 25);
+    overflow-y: scroll;
+    margin-left: 5%;
+}
+#input3 {
+    width: 45%;
+    height: 396px;
+    background: rgb(39, 41, 38);
+    margin-left: 55%;
+    margin-top: -396px;
+    display: flex;
+}
+#under {
+  background: rgb(25, 25, 25);
+}
+
+#input33 {
+    width: 45%;
+    height: 396px;
+    background: rgb(39, 41, 38);
+    margin-left: 55%;
+    margin-top: -396px;
+    display: flex;
+    overflow-y: scroll;
+}
+    </style>
+        <style>
+        * { box-sizing: border-box; }
+    
+        .result {
+            width: 100px;
+            height: 100px;
+            margin-left: 50px;
+            margin-top: 50px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+    
+        .results:hover {
+            transform: scale(1.1);
+        }
+    
+        .result.blur {
+            filter: blur(8px);
+        }
+    
+        .media {
+            position: absolute;
+            top: 150px;
+            right: 200px;
+            width: 450px;
+            z-index: 10;
+            opacity: 1;
+            box-shadow: 0px 0px 80px 8px rgba(255, 255, 255, .1);
+            transition: all 2s ease;
+            background-color: rgba(0,0,0,0.8);
+            cursor: pointer;
+        }
+    
+        .media.hidden {
+            opacity: 0;
+        }
+    
+        .media video {
+            width: 100%;
+        }
+    
+        .media p {
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 10px;
+        }
+    
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            display: none;
+        }
+    
+        .overlay.blur {
+            display: block;
+        }
+
+        #id {
+          color: white;
+          font-size: 20px;
+        }
+
+        .crass1 {
+          margin-left: 15px;
+        }
+
+        .class2 {
+          margin-left: 15px;
+        }
+
+        .class3 {
+          margin-left: 15px;
+        }
+
+        .div1 {
+          margin-top: 15px;
+        }
+
+        #preview {
+          margin-left: 5%;
+          width: 45%;
+          height: 300px;
+          background: rgb(39, 41, 38);
+        }
+
+        #itunes_div {
+          margin-top: 15px;
+        }
+
+        #Q {
+          font-size: 20px;
+        }
+
+        #control {
+          width: 100%;
+          height: 96px;
+          background: rgb(25, 25, 25);
+          margin-top: 300px;
+          margin-left: -355px;
+        }
+
+        #back2 {
+    background-image: linear-gradient(to right,rgb(32, 147, 201), rgba(128, 13, 223, 0.65)),url(file:///C:/Users/nakazawahiroto/Desktop/xam/htdocs/App%20Cross/images/musicback3.jpg);
+    width: 100%;
+    height: 300px;
+    display: flex;
+}
+
+.img1:hover {
+            opacity: 0.6;
+            background: rgba(167, 167, 167, 0.1);
+            cursor: pointer;
+        }
+
+        #result {
+            color: white;
+            text-align: center;
+            font-family: 'Roboto Condensed', sans-serif;
+            margin-top: 20px;
+            position: relative;
+        }
+        .song-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        .song-list li {
+            margin-bottom: 20px;
+            width: 500px;
+            justify-content: space-evenly;
+            letter-spacing: 1px;
+            font-weight: 500;
+            position: relative;
+        }
+        .song-list li div {
+            float: left;
+        }
+        .song-list li::after {
+            content: "";
+            position: absolute;
+            right: -20px;
+            left: -20px;
+            bottom: -4px;
+            height: 3px;
+            background: rgb(32, 147, 201);
+            display: inline-block;
+        }
+        .song-list li span {
+            float: right;
+            background-color: #9E2092;
+            border: none;
+            font-size: 12px;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 400;
+            padding: 4px 10px;
+            text-transform: capitalize;
+        }
+
+        #strong {
+          color: rgb(32, 147, 201);
+          margin-left: 10px;
+        }
+
+    </style>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<div class="hhh" style="width: 100%;height: 60px;background-color: rgb(25, 25, 25);"><p id="p">Cross Music</p></div>
+<div class="menu-trigger" href="">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<nav>
+    <input type="button" value="Song" class="form-control" style="background-color: rgb(32, 147, 201);border: none;color:white;width: 200px;margin-left: 50px;" onclick="j(1)">
+    <br>
+    <input type="button" value="Lyrics" class="form-control" style="background-color: rgb(32, 147, 201);border: none;color:white;width: 200px;margin-left: 50px;" onclick="j(2)">
+    <br>
+    <input type="button" value="Playlist" class="form-control" style="background-color: rgb(32, 147, 201);border: none;color:white;width: 200px;margin-left: 50px;" onclick="j(3)">
+    <br>
+    <input type="button" value="Help" class="form-control" style="background-color: rgb(32, 147, 201);border: none;color:white;width: 200px;margin-left: 50px;" onclick="j(4)">
+</nav>
+<div id="1">
+<div id="back">
+<div class="form-group">
+<input style="width: 700px;margin: 80px;" autofocus autocorrect="off" autocapitalize="off" spellcheck="false" id="term" title="曲名" placeholder="(Song)Song Title..." type="text" class="form-control">
+<input id="button2" type="submit" style="width: 80px;background: rgb(39, 41, 38);border: none;color: white;margin-left: 840px;margin-top: -119px;" value="Search" onclick="h()" class="form-control">
+<br>
+<br>
+<h1 style="margin-left: 80px;color: white;">60 millions de chansons gratuitement.</h1>
+</div>
+</div>
+<div id="under">
+<div id="input2">
+    <div id="results"></div>
+    <br>
+    <button id="more" style="display: none;width: 120px;background: rgb(32, 147, 201);color: white;border: none;" class="form-control">More...</button>
+</div>
+<div id="input3">
+    <div id="preview"></div>
+    <div id="control" class="form-group">
+    </div>
+</div>
+</div>
+</div>
+<div id="2">
+  <div id="back2">
+      <form class="form-group" id="form" autocomplete="off">
+      <input style="width: 700px;margin: 80px;" autofocus autocorrect="off" autocapitalize="off" spellcheck="false" id="search" placeholder="(Lyrics)Song Title..." type="text" class="form-control">
+      <input id="button2" type="submit" style="width: 80px;background: rgb(39, 41, 38);border: none;color: white;margin-left: 840px;margin-top: -119px;" value="Search" onclick="" class="form-control">
+      <br>
+      <br>
+      <h1 style="margin-left: 80px;color: white;">60 millions de chansons gratuitement.</h1>
+      </form>
+  </div>
+  <div id="under">
+      <div id="input2">
+        <section id="result">
+          <h2>Result will be displayed here...</h2>
+        </section>
+      </div>
+      <div id="input33">
+        <div id="lyrics1"></div>
+      </div>
+  </div>
+</div>
+<div id="3">
+  <div id="back2">
+    <h1 style="margin-top: 70px;margin-left: 170px;color: white;">Playlist</h1>
+  </div>
+  <div id="under">
+      <div id="input2">
+        <h5 style="margin: 50px;color: white;">Currently, playlists cannot be created.</h5>
+      </div>
+      <div id="input33">
+        <h2 style="color: rgb(32, 147, 201);margin-left: 20px;margin-top: 10px;">Recommended song</h2>
+        <br>
+        <br>
+        <div style="margin-top: 100px;margin-left: -280px;">
+        <img src="https://is4-ssl.mzstatic.com/image/thumb/Music123/v4/c7/3c/11/c73c1107-e999-1f65-fa22-b2ed8878e50e/source/100x100bb.jpg" width="100px" height="100px;">
+        <h5 style="color: white;margin-left: 140px;margin-top: -100px;">まちがいさがし</h5>
+        <audio src="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/15/bf/96/15bf96bf-71eb-cb97-a04e-30c7720c7f79/mzaf_17794540703722018224.plus.aac.p.m4a" style="margin-left: 135px;" controls></audio>
+        </div>
+        <br>
+        <div style="margin-top: 300px;margin-left: -430px;">
+          <img src="https://is5-ssl.mzstatic.com/image/thumb/Music128/v4/21/7a/33/217a3388-fa80-68df-d0b9-d8adaf747233/source/100x100bb.jpg" width="100px" height="100px;">
+          <h5 style="color: white;margin-left: 140px;margin-top: -100px;">パプリカ</h5>
+          <audio src="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview128/v4/55/ef/61/55ef6100-d49f-c344-104b-79827672304c/mzaf_5219449647399284916.plus.aac.p.m4a" style="margin-left: 135px;" controls></audio>
+        </div>
+        <br>
+        <div style="margin-top: 500px;margin-left: -430px;">
+          <img src="https://is3-ssl.mzstatic.com/image/thumb/Music123/v4/d6/7e/e4/d67ee4d7-6afc-d828-332a-9a81076cb6e0/source/100x100bb.jpg" width="100px" height="100px;">
+          <h5 style="color: white;margin-left: 140px;margin-top: -100px;">Pretender</h5>
+          <audio src="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview113/v4/fa/17/3f/fa173f3a-26be-c0a2-9113-4d81fe7b0bfb/mzaf_4753248623521236962.plus.aac.p.m4a" style="margin-left: 135px;" controls></audio>
+        </div>
+      </div>
+  </div>
+</div>
+<div id="4">
+  <div id="back2">
+    <h1 style="margin-top: 70px;margin-left: 170px;color: white;">Help</h1>
+  </div>
+  <div id="under" style="width: 100%;height: 400px;overflow-y: scroll;">
+    <br>
+    <h2 style="margin-left: 170px;color: rgb(32, 147, 201);">Frequently Asked Questions</h2>
+    <br>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">Q. Do you only have some lyrics?</h4>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">A. Unfortunately, the lyrics are vaccinated from other places, so some of the lyrics may not be displayed due to a bug.</h4>
+    <br>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">Q. How do you download music?</h3>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">A. You can download by selecting the song you want to download and pressing the download button. But some are expensive.</h4>
+    <br>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">Q. Can the song play in the background?</h4>
+    <br>
+    <h4 style="margin-left: 170px;color: white;">A. Of course you can. You can also search for lyrics while playing a song.</h4>
+    <br>
+    <br>
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script>
+    const form = document.getElementById('form')
+    const search = document.getElementById('search')
+    const result = document.getElementById('result')
+    const lyrics1 = document.getElementById('lyrics1')
+
+    const apiURL = 'https://api.lyrics.ovh';
+
+    form.addEventListener('submit', e=>{
+        e.preventDefault();
+        searchValue =search.value.trim();
+
+        if (!searchValue) {
+            alert('There is nothing to search')
+        }else {
+            searchSong(searchValue)
+        }
+    })
+
+    async function searchSong(searchValue) {
+        const searchResult = await fetch(`${apiURL}/suggest/${searchValue}`)
+        const data = await searchResult.json();
+
+        showData(data)
+    }
+
+    function showData(data) {
+        result.innerHTML =` 
+        <ul class="song-list">
+        ${data.data.map(song=> `<li>
+                                <div>
+                                    <strong>
+                                    ${song.artist.name}
+                                    </strong> -${song.title}
+                                </div>
+                                <span data-artist="${song.artist.name}" data-songtitle="${song.title}">
+                                    get lyrics
+                                </span>
+                                </li>
+        `).join('')
+        }
+        </ul>
+        `
+    }
+
+    result.addEventListener('click', e=>{
+        const clickedElement = e.target;
+
+        if (clickedElement.tagName === 'SPAN') {
+            const artist = clickedElement.getAttribute('data-artist');
+            const songTitle = clickedElement.getAttribute('data-songtitle');
+
+            getLyrics(artist, songTitle)
+        }
+    })
+
+    async function getLyrics(artist, songTitle) {
+        const res = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
+        const data = await res.json();
+
+        const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
+
+        lyrics1.innerHTML= ` <h2 id="strong"> <strong> 
+                                 ${artist}
+                                 </strong> -${songTitle}
+                            </h2>
+                            <p> ${lyrics}</p>
+                        `
+    }
+</script>
+<script>
+document.getElementById("2").style.display = "none";
+document.getElementById("3").style.display = "none";
+
+
+function j(num) {
+    if (num == 1) {
+        document.getElementById("1").style.display = "block";
+        document.getElementById("2").style.display = "none";
+        document.getElementById("3").style.display = "none";
+        document.getElementById("4").style.display = "none";
+    }
+    if (num == 2) {
+        document.getElementById("1").style.display = "none";
+        document.getElementById("2").style.display = "block";
+        document.getElementById("3").style.display = "none";
+        document.getElementById("4").style.display = "none";
+    }if (num == 3) {
+        document.getElementById("1").style.display = "none";
+        document.getElementById("2").style.display = "none";
+        document.getElementById("3").style.display = "block";
+        document.getElementById("4").style.display = "none";
+    }if (num == 4) {
+      document.getElementById("1").style.display = "none";
+      document.getElementById("2").style.display = "none";
+      document.getElementById("3").style.display = "none";
+      document.getElementById("4").style.display = "block";
+    }
+}
+
+  /*!
+ * https://himakan.net/tool/sample-music-generator
+ * MIT license
+ */
+var smg = {}
+;( function() {
+ 
+  'use strict';
+ 
+  var
+    searchUrl       = 'https://itunes.apple.com/search',
+    limit           = 5,
+    offset          = 0,
+    results_ele     = $( '#results' ),
+    affiliate_param = '&at=',
+    params = {
+      term:      '',
+      media:     'music',
+      entity:    'song',
+      attribute: 'songTerm',
+      country:   'jp',
+      lang:      'ja_jp',
+      offset:    offset,
+      limit:     limit
+    };
+ 
+  smg.result_list = [];
+ 
+  function searchArtists() {
+    $.getJSON(
+      searchUrl,
+      params,
+      function( data, status ) {
+ 
+        $.each( data.results, function( key, result ) {
+          results_ele.append( build_result( result ) );
+          smg.result_list.push( result );
+        });
+ 
+        set_params_offset( offset + limit );
+      }
+    )
+  }
+ 
+  function set_params_offset( value ) {
+    params.offset = offset = value
+  }
+ 
+  function reset_result() {
+    clear_result_list();
+    set_params_term( '' );
+    reset_params_offset();
+    remove_results();
+  }
+ 
+  function clear_result_list() {
+    smg.result_list = [];
+  }
+ 
+  function set_params_term( value ) {
+    params.term = value
+  }
+ 
+  function reset_params_offset() {
+    params.offset = offset = 0
+  }
+ 
+  function remove_results() {
+    results_ele.children().remove();
+  }
+ 
+  function build_result( result ) {
+    return $( '<div>', {
+      'data-song-no': smg.result_list.length,
+      class: 'div1'
+    }).append(
+      $( '<img>', {
+        src: result.artworkUrl100,
+        class: 'img1'
+      })
+    ).append(
+      $( '<span>', {
+        text: 'Artist:' + result.artistName,
+        id: 'id',
+        class: 'class1'
+      })
+    ).append(
+      $( '<span>', {
+        text: 'Album:' + result.collectionName,
+        id: 'id',
+        class: 'class2'
+      })
+    ).append(
+      $( '<span>', {
+        text: 'Song Name:' + result.trackName,
+        id: 'id',
+        class: 'class3'
+      })
+    ).click( function( event ) {
+      set_generator( event.currentTarget );
+    })
+  }
+ 
+  function set_generator( div_ele ) {
+    var
+      generator = $( '#generator' ),
+      preview = $( '#preview' ),
+      result = smg.result_list[ div_ele.dataset.songNo ],
+      id = id_generator(),
+      sample = html_generator( result, id );
+ 
+    generator.children().remove();
+    generator
+      .append(
+        $( '<textarea>', {
+          id: 'generator_text',
+          text: script_generator( result, id )
+        })
+      );
+ 
+    preview.children().remove();
+    preview.append( sample );
+ 
+    $( '#copy' ).css( 'display', 'inline' ).text( 'コピー' );
+  }
+ 
+  function script_generator( result, id ) {
+    return "<div id=\"" + id + "\"><script>" +
+      "(function(d){" +
+      "function cE(e){return d.createElement(e)}" +
+      "l=cE('a');" +
+      "l.href='" + href_generator( result.trackViewUrl ) + "';" +
+      "l.target='_blank';" +
+      "l.innerText='" + escape_html( result.trackName ) + "';" +
+      "t=cE('p');" +
+      "t.className='itunes_sample_title';" +
+      "t.appendChild(l);" +
+      "a=cE('p');" +
+      "a.className='itunes_sample_artist';" +
+      "a.innerText='" + escape_html( result.artistName ) + "';" +
+      "e=cE('p');" +
+      "e.className='itunes_sample_date';" +
+      "e.innerText='" + date_generator( result.releaseDate ) + "';" +
+      "i=cE('div');" +
+      "w=cE('img');" +
+      "w.src='" + result.artworkUrl100 + "';" +
+      "i.className='itunes_sample_info';" +
+      "i.appendChild(t);" +
+      "i.appendChild(a);" +
+      "i.appendChild(e);" +
+      "u=cE('audio');" +
+      "u.src='" + result.previewUrl + "';" +
+      "u.controls=true;" +
+      "p=cE('div');" +
+      "p.className='itunes_sample_player';" +
+      "p.appendChild(w);" +
+      "p.appendChild(i);" +
+      "p.appendChild(u);" +
+      "v=d.getElementById('" + id + "');" +
+      "v.children[0].remove();" +
+      "v.appendChild(p);})(document);" +
+      "/script></div>"
+  }
+ 
+  function escape_html( html ) {
+    if(typeof html !== 'string') {
+      return html;
+    }
+    return html.replace(/['`<>]/g, function(match) {
+      return {
+        "'": '\\\'',
+        '`': '\`',
+        '<': '\\<',
+        '>': '\\>'
+      }[match]
+    });
+  }
+ 
+  function html_generator( result, id ) {
+    return $( '<div>',{
+      class: 'itunes_sample_player',
+      id: 'itunes_div'
+    }).append(
+      $( '<img>', {
+        src: result.artworkUrl100
+      })
+    ).append(
+      $( '<div>', {
+        class: 'itunes_sample_info',
+        id: 'Q'
+      }).append(
+        $( '<p>', {
+          class: 'itunes_sample_title',
+          id: 'Q'
+        }).append(
+          $( '<a>', {
+            href: href_generator( result.trackViewUrl ),
+            target: 'blank',
+            text: result.trackName + '   Download',
+            class: 'form-control',
+            style: 'background-color: rgb(32, 147, 201);border: none;color:white;width: 185px;margin-top: 15px;'
+          })
+        )
+      ).append(
+        $( '<p>', {
+          class: 'itunes_sample_artist',
+          text: result.artistName,
+          id: 'Q'
+        })
+      ).append(
+        $( '<p>', {
+          class: 'itunes_sample_date',
+          text:  date_generator( result.releaseDate )
+        })
+      )
+    ).append(
+      $( '<audio>', {
+        src: result.previewUrl,
+        controls: true,
+        style: 'margin-top: 25px;out-line: none;'
+      })
+    );
+  }
+ 
+  function href_generator( url ) {
+    var
+      token = $( '#affiliate_token' ).val();
+ 
+    if ( '' === token ) {
+      return url
+    } else {
+      return url + affiliate_param + token
+    }
+  }
+ 
+  function date_generator( str_date ) {
+    var
+      d = new Date( str_date );
+ 
+    return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate()
+  }
+ 
+  function id_generator() {
+    var id = '', i, random;
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+ 
+      if (i === 8 || i === 12 || i === 16 || i === 20) {
+        id += "-"
+      }
+      id += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+    return id;
+  }
+ 
+  $( '#term' ).change( function( event ) {
+    if('' !== event.target.value){
+      reset_result();
+      set_params_term( event.target.value );
+      $( '#more' ).css( 'display', 'inline' );
+      searchArtists();
+    }
+  });
+ 
+  $( '#more' ).click( function() {
+    searchArtists();
+  });
+
+})();
+
+    $('.menu-trigger').on('click',function(){
+  if($(this).hasClass('active')){
+    $(this).removeClass('active');
+    $('main').removeClass('open');
+    $('nav').removeClass('open');
+    $('.overlay').removeClass('open');
+  } else {
+    $(this).addClass('active');
+    $('main').addClass('open');
+    $('nav').addClass('open');
+    $('.overlay').addClass('open');
+  }
+});
+$('.overlay').on('click',function(){
+  if($(this).hasClass('open')){
+    $(this).removeClass('open');
+    $('.menu-trigger').removeClass('active');
+    $('main').removeClass('open');
+    $('nav').removeClass('open');      
+  }
+});
+
+function h() {
+    getContent(searchElem.value);
+}
+
+//.append(
+//$('<button>', {
+//    class: 'form-control',
+//    style: 'background-color: rgb(32, 147, 201);border: none;color:white;width: 185px;',
+//    text: 'wide screen'
+//  })
+//)
+</script>
+</body>
+</html>
